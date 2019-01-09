@@ -102,14 +102,14 @@ f.close()
 f_prefix = str(time.time())
 output_filename = 'result_'+f_prefix+'_snaps.csv'
 f=open(output_filename,'w+')
-f.write('Process,Thread,Job ID,VM UUID,VM Name,Snapshot Start,Snapshot End,Snapshot Duration (sec)\n')
+f.write('Process,Thread,Job ID,VM UUID,VM Name,Snapshot Start,Snapshot End,Duration (sec),Duration (min)\n')
 
 
 for v in vms_snaps:
-
+    duration = time_def(vms_snaps[v]['snap_start'],vms_snaps[v]['snap_end'])
     f.write(vms_snaps[v]['process']+','+vms_snaps[v]['thread']+','+vms_snaps[v]['job_id']+','
     +vms_snaps[v]['vm_uuid']+','+vms_snaps[v]['vm_name']+','+vms_snaps[v]['snap_start']+','+vms_snaps[v]['snap_end']+','
-    +str(time_def(vms_snaps[v]['snap_start'],vms_snaps[v]['snap_end']))+'\n')
+    +str(duration)+','+str(round(duration/60))+'\n')
 
 
 f.close()
@@ -118,12 +118,12 @@ print('Result file '+output_filename+' created.')
 #Print Lease results to csv file
 output_filename = 'result_'+f_prefix+'_lease.csv'
 f=open(output_filename,'w+')
-f.write('Process,Thread,Job ID,VM Name,Disk,Disk Lease Start,Disk Lease End,Disk Lease Duration (sec)\n')
+f.write('Process,Thread,Job ID,VM Name,Disk,Disk Lease Start,Disk Lease End,Duration (sec),Duration (min)\n')
 for v in vms_lease:
-
+    duration = time_def(vms_lease[v]['lease_start'],vms_lease[v]['lease_end'])
     f.write(vms_lease[v]['process']+','+vms_lease[v]['thread']+','+vms_lease[v]['job_id']+','
     +vms_lease[v]['vm_name']+','+vms_lease[v]['disk']+','+vms_lease[v]['lease_start']+','+vms_lease[v]['lease_end']+','
-    +str(time_def(vms_lease[v]['lease_start'],vms_lease[v]['lease_end']))+'\n')
+    +str(duration)+','+str(round(duration/60))+'\n')
 
 f.close()
 print('Result file '+output_filename+' created.')
